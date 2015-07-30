@@ -1,0 +1,43 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'war'
+
+group = 'com.ffbit.market.exchange'
+version = '0.0.1-SNAPSHOT'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.5'
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+ext.slf4jVersion = '1.7.12'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile "org.slf4j:slf4j-api:${slf4jVersion}"
+
+    testCompile "junit:junit:4.12"
+}
+
+task initSourceFolders {
+    sourceSets*.allSource.srcDirs*.each { it.mkdirs() }
+}
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
+    }
+    exclude(["**/AllTests*"])
+}
