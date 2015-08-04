@@ -36,14 +36,15 @@ dependencies {
     compile("org.glassfish.jersey.ext:jersey-spring3:${jerseyVersion}") {
         exclude group: "org.springframework"
     }
+    compile "org.glassfish.jersey.ext:jersey-bean-validation:${jerseyVersion}"
 
-    compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
     compile("org.springframework:spring-web:${springVersion}") {
         exclude group: "commons-logging"
     }
 
     compile "org.slf4j:slf4j-api:${slf4jVersion}"
     compile "org.slf4j:slf4j-log4j12:${slf4jVersion}"
+    compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
 
 
     testCompile "org.hamcrest:hamcrest-all:1.3"
