@@ -32,17 +32,10 @@ public class ToolTimeFrameDataResourceTest extends JerseyTest {
     }
 
     @Test
-    public void itShouldNotReturnBadRequestIfTimeFrameIsLessThanTwoSymbols() {
-        Response response = invoke("USDCHF", "a");
+    public void itShouldNotReturnNotFoundForNonExistentTimeFrame() {
+        Response response = invoke("USDCHF", "Y1");
 
-        assertThat(response.getStatus(), is(Status.BAD_REQUEST.getStatusCode()));
-    }
-
-    @Test
-    public void itShouldNotReturnBadRequestIfTimeFrameIsMoreThanTwoSymbols() {
-        Response response = invoke("USDCHF", "abc");
-
-        assertThat(response.getStatus(), is(Status.BAD_REQUEST.getStatusCode()));
+        assertThat(response.getStatus(), is(Status.NOT_FOUND.getStatusCode()));
     }
 
     private Response invoke(String toolName, String timeFrame) {

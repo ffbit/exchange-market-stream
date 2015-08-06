@@ -1,7 +1,6 @@
 package com.ffbit.exchange.market.stream.api;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
+import com.ffbit.exchange.market.stream.common.TimeFrame;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -19,10 +18,8 @@ public class ToolTimeFrameDataResource {
     private String toolName;
 
     @NotNull
-    @NotEmpty
-    @Length(min = 2, max = 2)
     @PathParam("timeFrame")
-    private String timeFrame;
+    private TimeFrame timeFrame;
 
     @GET
     public String getData() {
