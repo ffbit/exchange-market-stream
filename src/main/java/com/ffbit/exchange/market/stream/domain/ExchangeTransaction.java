@@ -2,7 +2,6 @@ package com.ffbit.exchange.market.stream.domain;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.ZonedDateTime;
 
 public class ExchangeTransaction {
     private final String toolName;

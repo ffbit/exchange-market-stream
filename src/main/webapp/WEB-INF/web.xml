@@ -26,6 +26,7 @@
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>
                 com.ffbit.exchange.market.stream.api
+                com.ffbit.exchange.market.stream.provider
             </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>

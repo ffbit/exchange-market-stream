@@ -1,11 +1,13 @@
 package com.ffbit.exchange.market.stream.api;
 
+import com.ffbit.exchange.market.stream.provider.CsvWriterProvider;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.Test;
 
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import static javax.ws.rs.core.Response.Status;
@@ -19,16 +21,23 @@ public class ToolTimeFrameDataResourceTest extends JerseyTest {
         enable(TestProperties.LOG_TRAFFIC);
         enable(TestProperties.DUMP_ENTITY);
 
-        return new ResourceConfig(ToolTimeFrameDataResource.class);
+        return new ResourceConfig(
+                ToolTimeFrameDataResource.class,
+                CsvWriterProvider.class
+        );
     }
 
     @Test
-    public void itShouldReturnDataByToolAndTimeFrame() {
+    public void itShouldReturnCsvDataByToolAndTimeFrame() {
         Response response = invoke("USDCHF", "M1");
 
         assertThat("Status code mismatch",
                 response.getStatus(), is(Status.OK.getStatusCode()));
-        assertThat(response.readEntity(String.class), is("data for USDCHF-M1"));
+        assertThat("Media type mismatch",
+                response.getMediaType(), is(new MediaType("text", "csv")));
+        assertThat(
+                response.readEntity(String.class),
+                is("USDCHF;1.2;3.4;5.6;2015-01-02T03:04:05.678Z\r\n"));
     }
 
     @Test
