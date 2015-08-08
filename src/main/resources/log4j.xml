@@ -9,8 +9,12 @@
         </layout>
     </appender>
 
+    <logger name="com.ffbit.exchange.market.stream">
+        <level value="trace"/>
+    </logger>
+
     <root>
-        <priority value="trace" />
+        <priority value="info" />
         <appender-ref ref="console" />
     </root>
 
