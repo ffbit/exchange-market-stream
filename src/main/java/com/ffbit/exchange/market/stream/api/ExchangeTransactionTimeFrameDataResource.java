@@ -17,7 +17,7 @@ import java.util.List;
 @Component
 @Scope("prototype")
 @Path("/tool/{toolName}/timeframe/{timeFrame}")
-public class ToolTimeFrameDataResource {
+public class ExchangeTransactionTimeFrameDataResource {
 
     @PathParam("toolName")
     private String toolName;

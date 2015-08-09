@@ -14,7 +14,7 @@ import static javax.ws.rs.core.Response.Status;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class ToolTimeFrameDataResourceTest extends JerseyTest {
+public class ExchangeTransactionTimeFrameDataResourceTest extends JerseyTest {
 
     @Override
     protected Application configure() {
@@ -22,7 +22,7 @@ public class ToolTimeFrameDataResourceTest extends JerseyTest {
         enable(TestProperties.DUMP_ENTITY);
 
         return new ResourceConfig(
-                ToolTimeFrameDataResource.class,
+                ExchangeTransactionTimeFrameDataResource.class,
                 CsvWriterProvider.class
         );
     }
