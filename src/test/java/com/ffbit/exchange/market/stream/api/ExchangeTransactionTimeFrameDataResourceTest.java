@@ -38,9 +38,9 @@ public class ExchangeTransactionTimeFrameDataResourceTest extends JerseyTest {
                 response.getStatus(), is(Status.OK.getStatusCode()));
         assertThat("Media type mismatch",
                 response.getMediaType(), is(new CsvMediaType()));
-        assertThat(
+        assertThat("Response mismatch",
                 response.readEntity(String.class),
-                is("USDCHF;1;2015-01-02T03:04:05.678Z\r\n"));
+                is("USDCHF;2;2015-01-02T04:04:00Z\r\n"));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class ExchangeTransactionTimeFrameDataResourceTest extends JerseyTest {
     @Test
     public void itShouldCreateNewTransactions() {
         String payload = "USDAUD;2;2015-01-02T03:04:05.678Z\r\n" +
-                "USDAUD;3;2015-01-02T03:04:05.678Z";
+                "USDAUD;3;2015-01-02T03:04:05.678Z\r\n";
 
         Response response = target().path("/tool")
                 .request()

@@ -17,6 +17,7 @@ import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -86,6 +87,7 @@ public class CsvWriterProvider implements
                 transaction.getToolName(),
                 transaction.getVolume(),
                 transaction.getTimestamp()
+                        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         );
     }
 

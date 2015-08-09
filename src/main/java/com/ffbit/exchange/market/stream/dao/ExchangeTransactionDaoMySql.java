@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
 import java.time.OffsetDateTime;
-import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -63,12 +62,26 @@ public class ExchangeTransactionDaoMySql implements ExchangeTransactionDao {
     }
 
     @Override
-    public List<ExchangeTransaction> aggregateByTimeFrame(String toolName, TimeFrame timeFrame) {
-        ExchangeTransaction transaction = new ExchangeTransaction(toolName)
-                .withVolume(1)
-                .withTimestamp(OffsetDateTime.parse("2015-01-02T03:04:05.678Z"));
+    public List<ExchangeTransaction> aggregateByTimeFrame(String toolName,
+                                                          TimeFrame timeFrame) {
+        String query = "SELECT TOOL_NAME, SUM(VOLUME) VOLUME, " + timeFrame +
+                "  TRANSACTION_TIMESTAMP" +
+                " FROM EXCHANGE_TRANSACTION" +
+                " WHERE TOOL_NAME = ?" +
+                " GROUP BY TOOL_NAME, " + timeFrame;
 
-        return Collections.singletonList(transaction);
+        try {
+            List<ExchangeTransaction> transactions = jdbcTemplate.query(query,
+                    new Object[]{toolName},
+                    new ExchangeTransactionRowMapper()
+            );
+
+            return transactions;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }
