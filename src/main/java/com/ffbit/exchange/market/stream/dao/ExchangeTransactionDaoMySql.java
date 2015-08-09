@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
-import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -26,14 +26,14 @@ public class ExchangeTransactionDaoMySql implements ExchangeTransactionDao {
         jdbcTemplate.update(query,
                 transaction.getToolName(),
                 transaction.getVolume(),
-                Date.from(transaction.getTimestamp()));
+                Date.from(transaction.getTimestamp().toInstant()));
     }
 
     @Override
     public List<ExchangeTransaction> aggregateByTimeFrame(String toolName, TimeFrame timeFrame) {
         ExchangeTransaction transaction = new ExchangeTransaction(toolName)
                 .withVolume(1)
-                .withTimestamp(Instant.parse("2015-01-02T03:04:05.678Z"));
+                .withTimestamp(OffsetDateTime.parse("2015-01-02T03:04:05.678Z"));
 
         return Collections.singletonList(transaction);
     }

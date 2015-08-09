@@ -1,17 +1,17 @@
 package com.ffbit.exchange.market.stream.domain;
 
-import java.time.Instant;
+import java.time.OffsetDateTime;
 
 public class ExchangeTransaction {
     private final String toolName;
     private final long volume;
-    private final Instant timestamp;
+    private final OffsetDateTime timestamp;
 
     public ExchangeTransaction(String toolName) {
-        this(toolName, 0, Instant.now());
+        this(toolName, 0, OffsetDateTime.now());
     }
 
-    public ExchangeTransaction(String toolName, long volume, Instant timestamp) {
+    public ExchangeTransaction(String toolName, long volume, OffsetDateTime timestamp) {
         this.toolName = toolName;
         this.volume = volume;
         this.timestamp = timestamp;
@@ -33,11 +33,11 @@ public class ExchangeTransaction {
         return new ExchangeTransaction(toolName, volume, timestamp);
     }
 
-    public Instant getTimestamp() {
+    public OffsetDateTime getTimestamp() {
         return timestamp;
     }
 
-    public ExchangeTransaction withTimestamp(Instant timestamp) {
+    public ExchangeTransaction withTimestamp(OffsetDateTime timestamp) {
         return new ExchangeTransaction(toolName, volume, timestamp);
     }
 

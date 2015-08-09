@@ -25,10 +25,9 @@ import java.util.stream.Collectors;
 @Produces("text/csv")
 public class CsvWriterProvider implements
         MessageBodyWriter<List<ExchangeTransaction>> {
-    private final Logger log = LoggerFactory.getLogger(getClass());
-
     private static final String COLUMN_SEPARATOR = ";";
     private static final String LINE_SEPARATOR = "\r\n";
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Override
     public boolean isWriteable(Class<?> type,

@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
 import java.sql.Date;
-import java.time.Instant;
+import java.time.OffsetDateTime;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
@@ -40,7 +40,7 @@ public class ExchangeTransactionDaoTest {
     public void itShouldSaveExchangeTransaction() {
         String toolName = "USDCHF";
         long volume = 1;
-        Instant timestamp = Instant.now();
+        OffsetDateTime timestamp = OffsetDateTime.now();
 
         ExchangeTransaction transaction = new ExchangeTransaction(toolName)
                 .withVolume(volume)
@@ -49,7 +49,7 @@ public class ExchangeTransactionDaoTest {
         dao.save(transaction);
 
         verify(jdbcTemplate).update(anyString(), eq(toolName),
-                eq(volume), eq(Date.from(timestamp)));
+                eq(volume), eq(Date.from(timestamp.toInstant())));
     }
 
 }

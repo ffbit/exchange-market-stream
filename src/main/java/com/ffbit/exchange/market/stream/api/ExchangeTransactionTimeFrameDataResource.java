@@ -1,9 +1,9 @@
 package com.ffbit.exchange.market.stream.api;
 
-import com.ffbit.exchange.market.stream.mediatype.CsvMediaType;
 import com.ffbit.exchange.market.stream.common.TimeFrame;
 import com.ffbit.exchange.market.stream.dao.ExchangeTransactionDao;
 import com.ffbit.exchange.market.stream.domain.ExchangeTransaction;
+import com.ffbit.exchange.market.stream.mediatype.CsvMediaType;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
