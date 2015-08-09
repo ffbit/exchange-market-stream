@@ -11,10 +11,22 @@ import static org.junit.Assert.assertThat;
 public class TimeConverterTest {
     private TimeConverter converter = new TimeConverter();
 
+    private OffsetDateTime dateTime =
+            OffsetDateTime.parse("2015-01-02T03:04:05.678Z");
+
     @Test
-    public void itShouldConvertFromOffsetDateTimeToLegacyDate() {
-        OffsetDateTime dateTime = OffsetDateTime.parse("2015-01-02T03:04:05.678+02:00");
-        Date date = Date.from(dateTime.toInstant());
+    public void itShouldConvertFromAndToOffsetDateTimeToLegacyDate() {
+        OffsetDateTime dateTime =
+                OffsetDateTime.parse("2015-01-02T03:04:05.678Z");
+        Date date = converter.convertToDate(dateTime);
+
+        assertThat(converter.convertToOffsetDateTime(date), is(dateTime));
+    }
+
+    @Test
+    public void itShouldConvertToAndFromOffsetDateTimeToLegacyDate() {
+        Date date = new Date();
+        OffsetDateTime dateTime = converter.convertToOffsetDateTime(date);
 
         assertThat(converter.convertToDate(dateTime), is(date));
     }
