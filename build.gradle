@@ -56,6 +56,7 @@ dependencies {
     testCompile "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:${jerseyVersion}"
     testCompile "org.springframework:spring-test:${springVersion}"
     testCompile "org.mockito:mockito-all:1.10.19"
+    testCompile "pl.pragmatists:JUnitParams:1.0.4"
 }
 
 task initSourceFolders {
