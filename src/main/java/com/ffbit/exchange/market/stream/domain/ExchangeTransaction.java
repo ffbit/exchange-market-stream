@@ -1,33 +1,19 @@
 package com.ffbit.exchange.market.stream.domain;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 
 public class ExchangeTransaction {
     private final String toolName;
-    private final BigDecimal volume;
-    private final BigDecimal price1;
-    private final BigDecimal price2;
+    private final long volume;
     private final Instant timestamp;
 
     public ExchangeTransaction(String toolName) {
-        this(toolName,
-                BigDecimal.ZERO,
-                BigDecimal.ZERO,
-                BigDecimal.ZERO,
-                Instant.now());
+        this(toolName, 0, Instant.now());
     }
 
-    public ExchangeTransaction(
-            String toolName,
-            BigDecimal volume,
-            BigDecimal price1,
-            BigDecimal price2,
-            Instant timestamp) {
+    public ExchangeTransaction(String toolName, long volume, Instant timestamp) {
         this.toolName = toolName;
         this.volume = volume;
-        this.price1 = price1;
-        this.price2 = price2;
         this.timestamp = timestamp;
     }
 
@@ -36,31 +22,15 @@ public class ExchangeTransaction {
     }
 
     public ExchangeTransaction withToolName(String toolName) {
-        return new ExchangeTransaction(toolName, volume, price1, price2, timestamp);
+        return new ExchangeTransaction(toolName, volume, timestamp);
     }
 
-    public BigDecimal getVolume() {
+    public long getVolume() {
         return volume;
     }
 
-    public ExchangeTransaction withVolume(BigDecimal volume) {
-        return new ExchangeTransaction(toolName, volume, price1, price2, timestamp);
-    }
-
-    public BigDecimal getPrice1() {
-        return price1;
-    }
-
-    public ExchangeTransaction withPrice1(BigDecimal price1) {
-        return new ExchangeTransaction(toolName, volume, price1, price2, timestamp);
-    }
-
-    public BigDecimal getPrice2() {
-        return price2;
-    }
-
-    public ExchangeTransaction withPrice2(BigDecimal price2) {
-        return new ExchangeTransaction(toolName, volume, price1, price2, timestamp);
+    public ExchangeTransaction withVolume(long volume) {
+        return new ExchangeTransaction(toolName, volume, timestamp);
     }
 
     public Instant getTimestamp() {
@@ -68,7 +38,7 @@ public class ExchangeTransaction {
     }
 
     public ExchangeTransaction withTimestamp(Instant timestamp) {
-        return new ExchangeTransaction(toolName, volume, price1, price2, timestamp);
+        return new ExchangeTransaction(toolName, volume, timestamp);
     }
 
     @Override
@@ -76,8 +46,6 @@ public class ExchangeTransaction {
         return "ExchangeTransaction{" +
                 "toolName='" + toolName + '\'' +
                 ", volume=" + volume +
-                ", price1=" + price1 +
-                ", price2=" + price2 +
                 ", timestamp=" + timestamp +
                 '}';
     }

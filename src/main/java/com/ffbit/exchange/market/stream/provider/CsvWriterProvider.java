@@ -86,8 +86,6 @@ public class CsvWriterProvider implements
         return Arrays.asList(
                 transaction.getToolName(),
                 transaction.getVolume(),
-                transaction.getPrice1(),
-                transaction.getPrice2(),
                 transaction.getTimestamp()
         );
     }

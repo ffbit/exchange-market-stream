@@ -12,7 +12,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.Instant;
 
@@ -40,21 +39,17 @@ public class ExchangeTransactionDaoTest {
     @Test
     public void itShouldSaveExchangeTransaction() {
         String toolName = "USDCHF";
-        BigDecimal volume = new BigDecimal(1);
-        BigDecimal price1 = new BigDecimal(2);
-        BigDecimal price2 = new BigDecimal(3);
+        long volume = 1;
         Instant timestamp = Instant.now();
 
         ExchangeTransaction transaction = new ExchangeTransaction(toolName)
                 .withVolume(volume)
-                .withPrice1(price1)
-                .withPrice2(price2)
                 .withTimestamp(timestamp);
 
         dao.save(transaction);
 
         verify(jdbcTemplate).update(anyString(), eq(toolName),
-                eq(volume), eq(price1), eq(price2), eq(Date.from(timestamp)));
+                eq(volume), eq(Date.from(timestamp)));
     }
 
 }

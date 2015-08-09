@@ -37,7 +37,7 @@ public class ExchangeTransactionTimeFrameDataResourceTest extends JerseyTest {
                 response.getMediaType(), is(new CsvMediaType()));
         assertThat(
                 response.readEntity(String.class),
-                is("USDCHF;1.2;3.4;5.6;2015-01-02T03:04:05.678Z\r\n"));
+                is("USDCHF;1;2015-01-02T03:04:05.678Z\r\n"));
     }
 
     @Test
