@@ -1,5 +1,6 @@
 package com.ffbit.exchange.market.stream.api;
 
+import com.ffbit.exchange.market.stream.mediatype.CsvMediaType;
 import com.ffbit.exchange.market.stream.common.TimeFrame;
 import com.ffbit.exchange.market.stream.dao.ExchangeTransactionDao;
 import com.ffbit.exchange.market.stream.domain.ExchangeTransaction;
@@ -30,7 +31,7 @@ public class ExchangeTransactionTimeFrameDataResource {
     private ExchangeTransactionDao transactionDao;
 
     @GET
-    @Produces("text/csv")
+    @Produces(CsvMediaType.TEXT_CSV)
     public List<ExchangeTransaction> getTransactions() {
         return transactionDao.aggregateByTimeFrame(toolName, timeFrame);
     }
