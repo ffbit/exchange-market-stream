@@ -23,8 +23,8 @@ public class ContractDaoMySql implements ContractDao {
 
     @Override
     public void save(Contract contract) {
-        String query = "INSERT INTO EXCHANGE_TRANSACTION" +
-                " (TOOL_NAME, VOLUME, TRANSACTION_TIMESTAMP," +
+        String query = "INSERT INTO CONTRACT" +
+                " (NAME, VOLUME, DEAL_TIMESTAMP," +
                 "  M1, M2, M3, M4, M5, M6, M10, M15, M30, H1, H4, D1, W1, MN)" +
                 " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -45,7 +45,7 @@ public class ContractDaoMySql implements ContractDao {
         OffsetDateTime mn = TimeFrame.MN.adjust(timestamp);
 
         jdbcTemplate.update(query,
-                contract.getToolName(),
+                contract.getName(),
                 contract.getVolume(),
                 timeConverter.convertToDate(timestamp),
                 timeConverter.convertToDate(m1),
@@ -65,20 +65,20 @@ public class ContractDaoMySql implements ContractDao {
     }
 
     @Override
-    public List<Contract> aggregateByTimeFrame(String toolName,
+    public List<Contract> aggregateByTimeFrame(String name,
                                                TimeFrame timeFrame) {
-        String query = "SELECT TOOL_NAME, SUM(VOLUME) VOLUME, " + timeFrame +
-                "  TRANSACTION_TIMESTAMP" +
-                " FROM EXCHANGE_TRANSACTION" +
-                " WHERE TOOL_NAME = ?" +
-                " GROUP BY TOOL_NAME, " + timeFrame;
+        String query = "SELECT NAME, SUM(VOLUME) VOLUME, " + timeFrame +
+                "  DEAL_TIMESTAMP" +
+                " FROM CONTRACT" +
+                " WHERE NAME = ?" +
+                " GROUP BY NAME, " + timeFrame;
         List<Contract> contracts = jdbcTemplate.query(query,
-                new Object[]{toolName},
+                new Object[]{name},
                 new ContractRowMapper()
         );
 
         log.debug("{} aggregated contract entries for {} {} are found",
-                toolName, timeFrame);
+                name, timeFrame);
 
         return contracts;
     }

@@ -79,11 +79,11 @@ public class ContractCsvReaderProvider implements
 
     private Contract csvToContract(String line) {
         String[] parts = line.split(";");
-        String toolName = parts[0];
+        String name = parts[0];
         long volume = Long.valueOf(parts[1]);
         OffsetDateTime timestamp = OffsetDateTime.parse(parts[2]);
 
-        return new Contract(toolName, volume, timestamp);
+        return new Contract(name, volume, timestamp);
     }
 
 }

@@ -3,26 +3,26 @@ package com.ffbit.exchange.market.stream.domain;
 import java.time.OffsetDateTime;
 
 public class Contract {
-    private final String toolName;
+    private final String name;
     private final long volume;
     private final OffsetDateTime timestamp;
 
-    public Contract(String toolName) {
-        this(toolName, 0, OffsetDateTime.now());
+    public Contract(String name) {
+        this(name, 0, OffsetDateTime.now());
     }
 
-    public Contract(String toolName, long volume, OffsetDateTime timestamp) {
-        this.toolName = toolName;
+    public Contract(String name, long volume, OffsetDateTime timestamp) {
+        this.name = name;
         this.volume = volume;
         this.timestamp = timestamp;
     }
 
-    public String getToolName() {
-        return toolName;
+    public String getName() {
+        return name;
     }
 
-    public Contract withToolName(String toolName) {
-        return new Contract(toolName, volume, timestamp);
+    public Contract withName(String name) {
+        return new Contract(name, volume, timestamp);
     }
 
     public long getVolume() {
@@ -30,7 +30,7 @@ public class Contract {
     }
 
     public Contract withVolume(long volume) {
-        return new Contract(toolName, volume, timestamp);
+        return new Contract(name, volume, timestamp);
     }
 
     public OffsetDateTime getTimestamp() {
@@ -38,13 +38,13 @@ public class Contract {
     }
 
     public Contract withTimestamp(OffsetDateTime timestamp) {
-        return new Contract(toolName, volume, timestamp);
+        return new Contract(name, volume, timestamp);
     }
 
     @Override
     public String toString() {
         return "Contract{" +
-                "toolName='" + toolName + '\'' +
+                "name='" + name + '\'' +
                 ", volume=" + volume +
                 ", timestamp=" + timestamp +
                 '}';

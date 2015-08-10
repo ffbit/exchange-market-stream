@@ -31,7 +31,7 @@ public class ContractResourceTest extends JerseyTest {
     }
 
     @Test
-    public void itShouldReturnCsvDataByToolAndTimeFrame() {
+    public void itShouldReturnCsvDataByNameAndTimeFrame() {
         Response response = get("USDCHF", "M1");
 
         assertThat("Status code mismatch",
@@ -50,10 +50,10 @@ public class ContractResourceTest extends JerseyTest {
         assertThat(response.getStatus(), is(Status.NOT_FOUND.getStatusCode()));
     }
 
-    private Response get(String toolName, String timeFrame) {
+    private Response get(String name, String timeFrame) {
         return target()
-                .path("/tool/{toolName}/timeframe/{timeFrame}")
-                .resolveTemplate("toolName", toolName)
+                .path("/contract/{name}/timeframe/{timeFrame}")
+                .resolveTemplate("name", name)
                 .resolveTemplate("timeFrame", timeFrame)
                 .request()
                 .buildGet()
@@ -65,7 +65,7 @@ public class ContractResourceTest extends JerseyTest {
         String payload = "USDAUD;2;2015-01-02T03:04:05.678Z\r\n" +
                 "USDAUD;3;2015-01-02T03:04:05.678Z\r\n";
 
-        Response response = target().path("/tool")
+        Response response = target().path("/contract")
                 .request()
                 .post(Entity.entity(payload, new CsvMediaType()));
 

@@ -17,7 +17,7 @@ import java.util.List;
 
 @Component
 @Scope("prototype")
-@Path("/tool")
+@Path("/contract")
 public class ContractResource {
 
     @Inject
@@ -25,11 +25,11 @@ public class ContractResource {
 
     @GET
     @Produces(CsvMediaType.TEXT_CSV)
-    @Path("/{toolName}/timeframe/{timeFrame}")
+    @Path("/{name}/timeframe/{timeFrame}")
     public List<Contract> getContracts(
-            @PathParam("toolName") String toolName,
+            @PathParam("name") String name,
             @PathParam("timeFrame") TimeFrame timeFrame) {
-        return contractDao.aggregateByTimeFrame(toolName, timeFrame);
+        return contractDao.aggregateByTimeFrame(name, timeFrame);
     }
 
     @POST

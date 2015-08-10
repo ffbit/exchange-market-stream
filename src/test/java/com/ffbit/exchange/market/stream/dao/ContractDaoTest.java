@@ -41,17 +41,17 @@ public class ContractDaoTest {
 
     @Test
     public void itShouldSaveContract() {
-        String toolName = "USDCHF";
+        String name = "USDCHF";
         long volume = 1;
         OffsetDateTime timestamp = OffsetDateTime.parse("2015-01-02T03:04:05.678+02:00");
 
-        Contract contract = new Contract(toolName)
+        Contract contract = new Contract(name)
                 .withVolume(volume)
                 .withTimestamp(timestamp);
 
         dao.save(contract);
 
-        verify(jdbcTemplate).update(anyString(), eq(toolName), eq(volume),
+        verify(jdbcTemplate).update(anyString(), eq(name), eq(volume),
                 eq(timeConverter.convertToDate(timestamp)),
                 eq(timeConverter.convertToDate(TimeFrame.M1.adjust(timestamp))),
                 eq(timeConverter.convertToDate(TimeFrame.M2.adjust(timestamp))),

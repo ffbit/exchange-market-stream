@@ -9,7 +9,7 @@ public interface ContractDao {
 
     void save(Contract contract);
 
-    List<Contract> aggregateByTimeFrame(String toolName,
+    List<Contract> aggregateByTimeFrame(String name,
                                         TimeFrame timeFrame);
 
 }

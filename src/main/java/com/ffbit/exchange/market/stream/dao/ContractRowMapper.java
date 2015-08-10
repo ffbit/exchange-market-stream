@@ -15,11 +15,11 @@ public class ContractRowMapper
     @Override
     public Contract mapRow(ResultSet rs, int rowNum)
             throws SQLException {
-        String toolName = rs.getString("TOOL_NAME");
+        String name = rs.getString("NAME");
         long volume = rs.getLong("VOLUME");
-        Timestamp timestamp = rs.getTimestamp("TRANSACTION_TIMESTAMP");
+        Timestamp timestamp = rs.getTimestamp("DEAL_TIMESTAMP");
 
-        return new Contract(toolName)
+        return new Contract(name)
                 .withVolume(volume)
                 .withTimestamp(timeConverter.convertToOffsetDateTime(timestamp));
     }

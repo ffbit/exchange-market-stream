@@ -84,7 +84,7 @@ public class ContractCsvWriterProvider implements
 
     private List<Object> getColumns(Contract contract) {
         return Arrays.asList(
-                contract.getToolName(),
+                contract.getName(),
                 contract.getVolume(),
                 contract.getTimestamp()
                         .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
