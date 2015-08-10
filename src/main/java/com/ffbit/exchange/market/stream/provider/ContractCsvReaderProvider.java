@@ -15,6 +15,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Provider
@@ -63,7 +64,9 @@ public class ContractCsvReaderProvider extends ContractCsvProvider
     }
 
     private Contract csvToContract(String line) {
+        log.debug("line {}", line);
         String[] parts = line.split(COLUMN_SEPARATOR);
+        log.debug("parts {}", Arrays.toString(parts));
         String name = parts[0];
         long volume = Long.valueOf(parts[1]);
         OffsetDateTime timestamp = OffsetDateTime.parse(parts[2]);
