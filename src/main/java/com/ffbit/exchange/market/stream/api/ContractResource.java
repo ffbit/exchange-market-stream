@@ -21,24 +21,22 @@ import java.util.List;
 public class ContractResource {
 
     @Inject
-    private ContractDao transactionDao;
+    private ContractDao contractDao;
 
     @GET
     @Produces(CsvMediaType.TEXT_CSV)
     @Path("/{toolName}/timeframe/{timeFrame}")
-    public List<Contract> getTransactions(
+    public List<Contract> getContracts(
             @PathParam("toolName") String toolName,
             @PathParam("timeFrame") TimeFrame timeFrame) {
-        return transactionDao.aggregateByTimeFrame(toolName, timeFrame);
+        return contractDao.aggregateByTimeFrame(toolName, timeFrame);
     }
 
     @POST
-    public String createTransactions(List<Contract> transactions) {
-        for (Contract transaction : transactions) {
-            transactionDao.save(transaction);
-        }
+    public String createContracts(List<Contract> contracts) {
+        contracts.forEach(contractDao::save);
 
-        return transactions.size() + " entries have been saved";
+        return contracts.size() + " entries have been saved";
     }
 
 }

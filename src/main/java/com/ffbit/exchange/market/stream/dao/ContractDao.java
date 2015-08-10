@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface ContractDao {
 
-    void save(Contract transaction);
+    void save(Contract contract);
 
     List<Contract> aggregateByTimeFrame(String toolName,
-                                                   TimeFrame timeFrame);
+                                        TimeFrame timeFrame);
 
 }

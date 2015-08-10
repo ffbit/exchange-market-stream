@@ -50,7 +50,7 @@ public class ContractCsvWriterProvider implements
     }
 
     @Override
-    public long getSize(List<Contract> transactions,
+    public long getSize(List<Contract> contracts,
                         Class<?> type,
                         Type genericType,
                         Annotation[] annotations,
@@ -60,7 +60,7 @@ public class ContractCsvWriterProvider implements
     }
 
     @Override
-    public void writeTo(List<Contract> transactions,
+    public void writeTo(List<Contract> contracts,
                         Class<?> type,
                         Type genericType,
                         Annotation[] annotations,
@@ -70,23 +70,23 @@ public class ContractCsvWriterProvider implements
             throws IOException, WebApplicationException {
         Writer writer = new OutputStreamWriter(entityStream);
 
-        for (Contract transaction : transactions) {
-            String row = getColumns(transaction).stream()
+        for (Contract contract : contracts) {
+            String row = getColumns(contract).stream()
                     .map(String::valueOf)
                     .collect(Collectors.joining(COLUMN_SEPARATOR, "", LINE_SEPARATOR));
             writer.append(row);
         }
 
-        log.debug("{} transactions are written", transactions.size());
+        log.debug("{} contracts are written", contracts.size());
 
         writer.flush();
     }
 
-    private List<Object> getColumns(Contract transaction) {
+    private List<Object> getColumns(Contract contract) {
         return Arrays.asList(
-                transaction.getToolName(),
-                transaction.getVolume(),
-                transaction.getTimestamp()
+                contract.getToolName(),
+                contract.getVolume(),
+                contract.getTimestamp()
                         .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
         );
     }

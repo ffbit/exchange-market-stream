@@ -61,7 +61,7 @@ public class ContractResourceTest extends JerseyTest {
     }
 
     @Test
-    public void itShouldCreateNewTransactions() {
+    public void itShouldCreateNewContracts() {
         String payload = "USDAUD;2;2015-01-02T03:04:05.678Z\r\n" +
                 "USDAUD;3;2015-01-02T03:04:05.678Z\r\n";
 

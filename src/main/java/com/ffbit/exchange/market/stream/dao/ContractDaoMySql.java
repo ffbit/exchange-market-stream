@@ -3,6 +3,8 @@ package com.ffbit.exchange.market.stream.dao;
 import com.ffbit.exchange.market.stream.common.TimeFrame;
 import com.ffbit.exchange.market.stream.domain.Contract;
 import com.ffbit.exchange.market.stream.util.TimeConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Repository
 public class ContractDaoMySql implements ContractDao {
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Inject
     private JdbcTemplate jdbcTemplate;
@@ -19,13 +22,13 @@ public class ContractDaoMySql implements ContractDao {
     private TimeConverter timeConverter = new TimeConverter();
 
     @Override
-    public void save(Contract transaction) {
+    public void save(Contract contract) {
         String query = "INSERT INTO EXCHANGE_TRANSACTION" +
                 " (TOOL_NAME, VOLUME, TRANSACTION_TIMESTAMP," +
                 "  M1, M2, M3, M4, M5, M6, M10, M15, M30, H1, H4, D1, W1, MN)" +
                 " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        OffsetDateTime timestamp = transaction.getTimestamp();
+        OffsetDateTime timestamp = contract.getTimestamp();
         OffsetDateTime m1 = TimeFrame.M1.adjust(timestamp);
         OffsetDateTime m2 = TimeFrame.M2.adjust(timestamp);
         OffsetDateTime m3 = TimeFrame.M3.adjust(timestamp);
@@ -42,8 +45,8 @@ public class ContractDaoMySql implements ContractDao {
         OffsetDateTime mn = TimeFrame.MN.adjust(timestamp);
 
         jdbcTemplate.update(query,
-                transaction.getToolName(),
-                transaction.getVolume(),
+                contract.getToolName(),
+                contract.getVolume(),
                 timeConverter.convertToDate(timestamp),
                 timeConverter.convertToDate(m1),
                 timeConverter.convertToDate(m2),
@@ -63,25 +66,21 @@ public class ContractDaoMySql implements ContractDao {
 
     @Override
     public List<Contract> aggregateByTimeFrame(String toolName,
-                                                          TimeFrame timeFrame) {
+                                               TimeFrame timeFrame) {
         String query = "SELECT TOOL_NAME, SUM(VOLUME) VOLUME, " + timeFrame +
                 "  TRANSACTION_TIMESTAMP" +
                 " FROM EXCHANGE_TRANSACTION" +
                 " WHERE TOOL_NAME = ?" +
                 " GROUP BY TOOL_NAME, " + timeFrame;
+        List<Contract> contracts = jdbcTemplate.query(query,
+                new Object[]{toolName},
+                new ContractRowMapper()
+        );
 
-        try {
-            List<Contract> transactions = jdbcTemplate.query(query,
-                    new Object[]{toolName},
-                    new ContractRowMapper()
-            );
+        log.debug("{} aggregated contract entries for {} {} are found",
+                toolName, timeFrame);
 
-            return transactions;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        return contracts;
     }
 
 }

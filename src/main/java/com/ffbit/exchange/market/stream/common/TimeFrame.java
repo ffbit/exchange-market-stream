@@ -98,10 +98,10 @@ public enum TimeFrame {
         }
     };
 
-    public abstract OffsetDateTime adjust(OffsetDateTime dateTime);
-
     private static int scale(int value, int factor) {
         return (value / factor) * factor;
     }
+
+    public abstract OffsetDateTime adjust(OffsetDateTime dateTime);
 
 }

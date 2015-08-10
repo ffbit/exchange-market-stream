@@ -46,13 +46,13 @@ public class ContractCsvReaderProvider implements
 
     @Override
     public List<Contract> readFrom(Class<List<Contract>> type,
-                                              Type genericType,
-                                              Annotation[] annotations,
-                                              MediaType mediaType,
-                                              MultivaluedMap<String, String> httpHeaders,
-                                              InputStream entityStream)
+                                   Type genericType,
+                                   Annotation[] annotations,
+                                   MediaType mediaType,
+                                   MultivaluedMap<String, String> httpHeaders,
+                                   InputStream entityStream)
             throws IOException, WebApplicationException {
-        List<Contract> transactions = new ArrayList<>();
+        List<Contract> contracts = new ArrayList<>();
 
         BufferedReader reader =
                 new BufferedReader(new InputStreamReader(entityStream));
@@ -63,7 +63,7 @@ public class ContractCsvReaderProvider implements
             lineNumber++;
 
             try {
-                transactions.add(csvToTransaction(line));
+                contracts.add(csvToContract(line));
             } catch (RuntimeException e) {
                 String message = "Broken line number " + lineNumber;
                 log.error(message, e);
@@ -72,12 +72,12 @@ public class ContractCsvReaderProvider implements
             }
         }
 
-        log.info("Converted {} lines to transactions", lineNumber);
+        log.info("Converted {} lines to contracts", lineNumber);
 
-        return transactions;
+        return contracts;
     }
 
-    private Contract csvToTransaction(String line) {
+    private Contract csvToContract(String line) {
         String[] parts = line.split(";");
         String toolName = parts[0];
         long volume = Long.valueOf(parts[1]);
