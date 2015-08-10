@@ -1,8 +1,7 @@
 package com.ffbit.exchange.market.stream.provider;
 
 import com.ffbit.exchange.market.stream.domain.Contract;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.ffbit.exchange.market.stream.mediatype.CsvMediaType;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
@@ -15,7 +14,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -23,30 +21,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Provider
-@Produces("text/csv")
-public class ContractCsvWriterProvider implements
-        MessageBodyWriter<List<Contract>> {
-    private static final String COLUMN_SEPARATOR = ";";
-    private static final String LINE_SEPARATOR = "\r\n";
-    private final Logger log = LoggerFactory.getLogger(getClass());
+@Produces(CsvMediaType.TEXT_CSV)
+public class ContractCsvWriterProvider extends ContractCsvProvider
+        implements MessageBodyWriter<List<Contract>> {
 
     @Override
     public boolean isWriteable(Class<?> type,
                                Type genericType,
                                Annotation[] annotations,
                                MediaType mediaType) {
-        if (!List.class.isAssignableFrom(type)) {
-            return false;
-        } else if (!(genericType instanceof ParameterizedType)) {
-            return false;
-        }
-
-        return getGenericArgumentType(genericType) == Contract.class;
-    }
-
-    private Type getGenericArgumentType(Type genericType) {
-        ParameterizedType parameterizedType = (ParameterizedType) genericType;
-        return parameterizedType.getActualTypeArguments()[0];
+        return isAcceptable(type, genericType, annotations, mediaType);
     }
 
     @Override
