@@ -1,6 +1,6 @@
 package com.ffbit.exchange.market.stream.api;
 
-import org.glassfish.jersey.server.ResourceConfig;
+import com.ffbit.exchange.market.stream.app.ExchangeMarketStream;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.Test;
@@ -17,7 +17,7 @@ public class HelloResourceTest extends JerseyTest {
         enable(TestProperties.LOG_TRAFFIC);
         enable(TestProperties.DUMP_ENTITY);
 
-        return new ResourceConfig(HelloResource.class);
+        return new ExchangeMarketStream();
     }
 
     @Test

@@ -1,9 +1,7 @@
 package com.ffbit.exchange.market.stream.api;
 
+import com.ffbit.exchange.market.stream.app.ExchangeMarketStream;
 import com.ffbit.exchange.market.stream.mediatype.CsvMediaType;
-import com.ffbit.exchange.market.stream.provider.ContractCsvReaderProvider;
-import com.ffbit.exchange.market.stream.provider.ContractCsvWriterProvider;
-import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.Test;
@@ -23,11 +21,7 @@ public class ContractResourceTest extends JerseyTest {
         enable(TestProperties.LOG_TRAFFIC);
         enable(TestProperties.DUMP_ENTITY);
 
-        return new ResourceConfig(
-                ContractResource.class,
-                ContractCsvWriterProvider.class,
-                ContractCsvReaderProvider.class
-        );
+        return new ExchangeMarketStream();
     }
 
     @Test

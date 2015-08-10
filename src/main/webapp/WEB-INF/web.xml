@@ -23,10 +23,9 @@
             org.glassfish.jersey.servlet.ServletContainer
         </servlet-class>
         <init-param>
-            <param-name>jersey.config.server.provider.packages</param-name>
+            <param-name>javax.ws.rs.Application</param-name>
             <param-value>
-                com.ffbit.exchange.market.stream.api
-                com.ffbit.exchange.market.stream.provider
+                com.ffbit.exchange.market.stream.app.ExchangeMarketStream
             </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
