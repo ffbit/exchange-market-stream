@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 public abstract class ContractCsvProvider {
-    protected static final String COLUMN_SEPARATOR = ";";
+    protected static final String COLUMN_SEPARATOR = ",";
     protected static final String LINE_SEPARATOR = "\r\n";
     protected Logger log = LoggerFactory.getLogger(getClass());
 

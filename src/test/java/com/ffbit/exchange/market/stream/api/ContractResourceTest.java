@@ -34,7 +34,7 @@ public class ContractResourceTest extends JerseyTest {
                 response.getMediaType(), is(new CsvMediaType()));
         assertThat("Response mismatch",
                 response.readEntity(String.class),
-                is("USDCHF;2;2015-01-02T04:04:00Z\r\n"));
+                is("2015.01.02 04:04:00,2\r\n"));
     }
 
     @Test
@@ -56,8 +56,8 @@ public class ContractResourceTest extends JerseyTest {
 
     @Test
     public void itShouldCreateNewContracts() {
-        String payload = "USDAUD;2;2015-01-02T03:04:05.678Z\r\n" +
-                "USDAUD;3;2015-01-02T03:04:05.678Z\r\n";
+        String payload = "USDAUD,2,2015-01-02T03:04:05.678Z\r\n" +
+                "USDAUD,3,2015-01-02T03:04:05.678Z\r\n";
 
         Response response = target().path("/contract")
                 .request()

@@ -24,6 +24,11 @@ import java.util.stream.Collectors;
 @Produces(CsvMediaType.TEXT_CSV)
 public class ContractCsvWriterProvider extends ContractCsvProvider
         implements MessageBodyWriter<List<Contract>> {
+    private final DateTimeFormatter formatter;
+
+    public ContractCsvWriterProvider() {
+        formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
+    }
 
     @Override
     public boolean isWriteable(Class<?> type,
@@ -68,10 +73,9 @@ public class ContractCsvWriterProvider extends ContractCsvProvider
 
     private List<Object> getColumns(Contract contract) {
         return Arrays.asList(
-                contract.getName(),
-                contract.getVolume(),
                 contract.getTimestamp()
-                        .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+                        .format(formatter),
+                contract.getVolume()
         );
     }
 
