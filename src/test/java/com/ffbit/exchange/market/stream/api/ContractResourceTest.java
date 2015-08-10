@@ -1,8 +1,8 @@
 package com.ffbit.exchange.market.stream.api;
 
 import com.ffbit.exchange.market.stream.mediatype.CsvMediaType;
-import com.ffbit.exchange.market.stream.provider.CsvReaderProvider;
-import com.ffbit.exchange.market.stream.provider.CsvWriterProvider;
+import com.ffbit.exchange.market.stream.provider.ContractCsvReaderProvider;
+import com.ffbit.exchange.market.stream.provider.ContractCsvWriterProvider;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
@@ -16,7 +16,7 @@ import static javax.ws.rs.core.Response.Status;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class ExchangeTransactionTimeFrameDataResourceTest extends JerseyTest {
+public class ContractResourceTest extends JerseyTest {
 
     @Override
     protected Application configure() {
@@ -24,9 +24,9 @@ public class ExchangeTransactionTimeFrameDataResourceTest extends JerseyTest {
         enable(TestProperties.DUMP_ENTITY);
 
         return new ResourceConfig(
-                ExchangeTransactionTimeFrameDataResource.class,
-                CsvWriterProvider.class,
-                CsvReaderProvider.class
+                ContractResource.class,
+                ContractCsvWriterProvider.class,
+                ContractCsvReaderProvider.class
         );
     }
 

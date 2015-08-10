@@ -1,6 +1,6 @@
 package com.ffbit.exchange.market.stream.provider;
 
-import com.ffbit.exchange.market.stream.domain.ExchangeTransaction;
+import com.ffbit.exchange.market.stream.domain.Contract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Provider
-public class CsvReaderProvider implements
-        MessageBodyReader<List<ExchangeTransaction>> {
+public class ContractCsvReaderProvider implements
+        MessageBodyReader<List<Contract>> {
     private Logger log = LoggerFactory.getLogger(getClass());
 
     @Override
@@ -36,7 +36,7 @@ public class CsvReaderProvider implements
             return false;
         }
 
-        return getGenericArgumentType(genericType) == ExchangeTransaction.class;
+        return getGenericArgumentType(genericType) == Contract.class;
     }
 
     private Type getGenericArgumentType(Type genericType) {
@@ -45,14 +45,14 @@ public class CsvReaderProvider implements
     }
 
     @Override
-    public List<ExchangeTransaction> readFrom(Class<List<ExchangeTransaction>> type,
+    public List<Contract> readFrom(Class<List<Contract>> type,
                                               Type genericType,
                                               Annotation[] annotations,
                                               MediaType mediaType,
                                               MultivaluedMap<String, String> httpHeaders,
                                               InputStream entityStream)
             throws IOException, WebApplicationException {
-        List<ExchangeTransaction> transactions = new ArrayList<>();
+        List<Contract> transactions = new ArrayList<>();
 
         BufferedReader reader =
                 new BufferedReader(new InputStreamReader(entityStream));
@@ -68,7 +68,7 @@ public class CsvReaderProvider implements
                 String message = "Broken line number " + lineNumber;
                 log.error(message, e);
 
-                throw new CsvReaderProviderException(message);
+                throw new ContractCsvReaderProviderException(message);
             }
         }
 
@@ -77,13 +77,13 @@ public class CsvReaderProvider implements
         return transactions;
     }
 
-    private ExchangeTransaction csvToTransaction(String line) {
+    private Contract csvToTransaction(String line) {
         String[] parts = line.split(";");
         String toolName = parts[0];
         long volume = Long.valueOf(parts[1]);
         OffsetDateTime timestamp = OffsetDateTime.parse(parts[2]);
 
-        return new ExchangeTransaction(toolName, volume, timestamp);
+        return new Contract(toolName, volume, timestamp);
     }
 
 }

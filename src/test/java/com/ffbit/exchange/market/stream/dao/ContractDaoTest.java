@@ -1,7 +1,7 @@
 package com.ffbit.exchange.market.stream.dao;
 
 import com.ffbit.exchange.market.stream.common.TimeFrame;
-import com.ffbit.exchange.market.stream.domain.ExchangeTransaction;
+import com.ffbit.exchange.market.stream.domain.Contract;
 import com.ffbit.exchange.market.stream.util.TimeConverter;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext.xml")
-public class ExchangeTransactionDaoTest {
+public class ContractDaoTest {
 
     @Spy
     @Inject
@@ -30,7 +30,7 @@ public class ExchangeTransactionDaoTest {
 
     @InjectMocks
     @Inject
-    private ExchangeTransactionDao dao;
+    private ContractDao dao;
 
     private TimeConverter timeConverter = new TimeConverter();
 
@@ -45,7 +45,7 @@ public class ExchangeTransactionDaoTest {
         long volume = 1;
         OffsetDateTime timestamp = OffsetDateTime.parse("2015-01-02T03:04:05.678+02:00");
 
-        ExchangeTransaction transaction = new ExchangeTransaction(toolName)
+        Contract transaction = new Contract(toolName)
                 .withVolume(volume)
                 .withTimestamp(timestamp);
 

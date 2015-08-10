@@ -1,7 +1,7 @@
 package com.ffbit.exchange.market.stream.dao;
 
 import com.ffbit.exchange.market.stream.common.TimeFrame;
-import com.ffbit.exchange.market.stream.domain.ExchangeTransaction;
+import com.ffbit.exchange.market.stream.domain.Contract;
 import com.ffbit.exchange.market.stream.util.TimeConverter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @Repository
-public class ExchangeTransactionDaoMySql implements ExchangeTransactionDao {
+public class ContractDaoMySql implements ContractDao {
 
     @Inject
     private JdbcTemplate jdbcTemplate;
@@ -19,7 +19,7 @@ public class ExchangeTransactionDaoMySql implements ExchangeTransactionDao {
     private TimeConverter timeConverter = new TimeConverter();
 
     @Override
-    public void save(ExchangeTransaction transaction) {
+    public void save(Contract transaction) {
         String query = "INSERT INTO EXCHANGE_TRANSACTION" +
                 " (TOOL_NAME, VOLUME, TRANSACTION_TIMESTAMP," +
                 "  M1, M2, M3, M4, M5, M6, M10, M15, M30, H1, H4, D1, W1, MN)" +
@@ -62,7 +62,7 @@ public class ExchangeTransactionDaoMySql implements ExchangeTransactionDao {
     }
 
     @Override
-    public List<ExchangeTransaction> aggregateByTimeFrame(String toolName,
+    public List<Contract> aggregateByTimeFrame(String toolName,
                                                           TimeFrame timeFrame) {
         String query = "SELECT TOOL_NAME, SUM(VOLUME) VOLUME, " + timeFrame +
                 "  TRANSACTION_TIMESTAMP" +
@@ -71,9 +71,9 @@ public class ExchangeTransactionDaoMySql implements ExchangeTransactionDao {
                 " GROUP BY TOOL_NAME, " + timeFrame;
 
         try {
-            List<ExchangeTransaction> transactions = jdbcTemplate.query(query,
+            List<Contract> transactions = jdbcTemplate.query(query,
                     new Object[]{toolName},
-                    new ExchangeTransactionRowMapper()
+                    new ContractRowMapper()
             );
 
             return transactions;

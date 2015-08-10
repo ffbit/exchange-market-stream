@@ -1,6 +1,6 @@
 package com.ffbit.exchange.market.stream.provider;
 
-import com.ffbit.exchange.market.stream.domain.ExchangeTransaction;
+import com.ffbit.exchange.market.stream.domain.Contract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 
 @Provider
 @Produces("text/csv")
-public class CsvWriterProvider implements
-        MessageBodyWriter<List<ExchangeTransaction>> {
+public class ContractCsvWriterProvider implements
+        MessageBodyWriter<List<Contract>> {
     private static final String COLUMN_SEPARATOR = ";";
     private static final String LINE_SEPARATOR = "\r\n";
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -41,7 +41,7 @@ public class CsvWriterProvider implements
             return false;
         }
 
-        return getGenericArgumentType(genericType) == ExchangeTransaction.class;
+        return getGenericArgumentType(genericType) == Contract.class;
     }
 
     private Type getGenericArgumentType(Type genericType) {
@@ -50,7 +50,7 @@ public class CsvWriterProvider implements
     }
 
     @Override
-    public long getSize(List<ExchangeTransaction> transactions,
+    public long getSize(List<Contract> transactions,
                         Class<?> type,
                         Type genericType,
                         Annotation[] annotations,
@@ -60,7 +60,7 @@ public class CsvWriterProvider implements
     }
 
     @Override
-    public void writeTo(List<ExchangeTransaction> transactions,
+    public void writeTo(List<Contract> transactions,
                         Class<?> type,
                         Type genericType,
                         Annotation[] annotations,
@@ -70,7 +70,7 @@ public class CsvWriterProvider implements
             throws IOException, WebApplicationException {
         Writer writer = new OutputStreamWriter(entityStream);
 
-        for (ExchangeTransaction transaction : transactions) {
+        for (Contract transaction : transactions) {
             String row = getColumns(transaction).stream()
                     .map(String::valueOf)
                     .collect(Collectors.joining(COLUMN_SEPARATOR, "", LINE_SEPARATOR));
@@ -82,7 +82,7 @@ public class CsvWriterProvider implements
         writer.flush();
     }
 
-    private List<Object> getColumns(ExchangeTransaction transaction) {
+    private List<Object> getColumns(Contract transaction) {
         return Arrays.asList(
                 transaction.getToolName(),
                 transaction.getVolume(),
