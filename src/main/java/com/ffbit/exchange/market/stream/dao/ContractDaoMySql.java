@@ -71,7 +71,8 @@ public class ContractDaoMySql implements ContractDao {
                 "  DEAL_TIMESTAMP" +
                 " FROM CONTRACT" +
                 " WHERE NAME = ?" +
-                " GROUP BY NAME, " + timeFrame;
+                " GROUP BY NAME, " + timeFrame +
+                " ORDER BY " + timeFrame;
         List<Contract> contracts = jdbcTemplate.query(query,
                 new Object[]{name},
                 new ContractRowMapper()

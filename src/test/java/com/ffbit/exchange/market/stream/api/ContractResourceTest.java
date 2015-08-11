@@ -34,7 +34,7 @@ public class ContractResourceTest extends JerseyTest {
                 response.getMediaType(), is(new CsvMediaType()));
         assertThat("Response mismatch",
                 response.readEntity(String.class),
-                is("2015.01.02 04:04:00,2\r\n"));
+                is("2015.01.02 02:04:00,2\r\n"));
     }
 
     @Test
