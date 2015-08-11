@@ -11,7 +11,8 @@ import java.util.Date;
 public class TimeConverter {
 
     public Date convertToDate(OffsetDateTime dateTime) {
-        LocalDateTime localDateTime = dateTime.toLocalDateTime();
+        LocalDateTime localDateTime = dateTime.withOffsetSameInstant(ZoneOffset.UTC)
+                .toLocalDateTime();
         ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
 
         return Date.from(zonedDateTime.toInstant());

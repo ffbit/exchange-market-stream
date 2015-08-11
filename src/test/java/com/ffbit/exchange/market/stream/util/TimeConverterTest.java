@@ -12,15 +12,15 @@ public class TimeConverterTest {
     private TimeConverter converter = new TimeConverter();
 
     private OffsetDateTime dateTime =
-            OffsetDateTime.parse("2015-01-02T03:04:05.678Z");
+            OffsetDateTime.parse("2015-01-02T12:04:05.000+07:00");
 
     @Test
     public void itShouldConvertFromAndToOffsetDateTimeToLegacyDate() {
-        OffsetDateTime dateTime =
-                OffsetDateTime.parse("2015-01-02T03:04:05.678Z");
         Date date = converter.convertToDate(dateTime);
 
-        assertThat(converter.convertToOffsetDateTime(date), is(dateTime));
+        assertThat(converter.convertToOffsetDateTime(date)
+                        .withOffsetSameInstant(dateTime.getOffset()),
+                is(dateTime));
     }
 
     @Test
