@@ -2,7 +2,10 @@ package com.ffbit.exchange.market.stream.provider;
 
 import com.ffbit.exchange.market.stream.domain.Contract;
 import com.ffbit.exchange.market.stream.mediatype.CsvMediaType;
+import com.ffbit.exchange.market.stream.service.ContractCsvConverter;
+import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
@@ -11,20 +14,20 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Provider
 @Produces(CsvMediaType.TEXT_CSV)
+@Component
 public class ContractCsvWriterProvider extends ContractCsvProvider
         implements MessageBodyWriter<List<Contract>> {
+
     private final DateTimeFormatter formatter;
+    @Inject
+    private ContractCsvConverter converter;
 
     public ContractCsvWriterProvider() {
         formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
@@ -57,26 +60,9 @@ public class ContractCsvWriterProvider extends ContractCsvProvider
                         MultivaluedMap<String, Object> httpHeaders,
                         OutputStream entityStream)
             throws IOException, WebApplicationException {
-        Writer writer = new OutputStreamWriter(entityStream);
-
-        for (Contract contract : contracts) {
-            String row = getColumns(contract).stream()
-                    .map(String::valueOf)
-                    .collect(Collectors.joining(COLUMN_SEPARATOR, "", LINE_SEPARATOR));
-            writer.append(row);
-        }
+        converter.write(contracts, entityStream);
 
         log.debug("{} contracts are written", contracts.size());
-
-        writer.flush();
-    }
-
-    private List<Object> getColumns(Contract contract) {
-        return Arrays.asList(
-                contract.getTimestamp()
-                        .format(formatter),
-                contract.getVolume()
-        );
     }
 
 }

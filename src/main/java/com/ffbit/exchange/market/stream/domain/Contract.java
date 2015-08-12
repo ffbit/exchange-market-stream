@@ -1,6 +1,7 @@
 package com.ffbit.exchange.market.stream.domain;
 
 import java.time.OffsetDateTime;
+import java.util.Objects;
 
 public class Contract {
     private final String name;
@@ -48,6 +49,21 @@ public class Contract {
                 ", volume=" + volume +
                 ", timestamp=" + timestamp +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Contract contract = (Contract) o;
+        return volume == contract.volume &&
+                Objects.equals(name, contract.name) &&
+                Objects.equals(timestamp, contract.timestamp);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, volume, timestamp);
     }
 
 }
