@@ -2,6 +2,11 @@ package com.ffbit.exchange.market.stream.api;
 
 import com.ffbit.exchange.market.stream.app.ExchangeMarketStream;
 import com.ffbit.exchange.market.stream.mediatype.CsvMediaType;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.MultiPart;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.Test;
@@ -9,12 +14,15 @@ import org.junit.Test;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
+import java.io.ByteArrayInputStream;
 
 import static javax.ws.rs.core.Response.Status;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class ContractResourceTest extends JerseyTest {
+    private String inputCsv = "USDAUD,2,2015-01-02T03:04:05.678Z\r\n" +
+            "USDAUD,3,2015-01-02T03:04:05.678Z\r\n";
 
     @Override
     protected Application configure() {
@@ -22,6 +30,11 @@ public class ContractResourceTest extends JerseyTest {
         enable(TestProperties.DUMP_ENTITY);
 
         return new ExchangeMarketStream();
+    }
+
+    @Override
+    protected void configureClient(ClientConfig config) {
+        config.register(MultiPartFeature.class);
     }
 
     @Test
@@ -56,12 +69,27 @@ public class ContractResourceTest extends JerseyTest {
 
     @Test
     public void itShouldCreateNewContracts() {
-        String payload = "USDAUD,2,2015-01-02T03:04:05.678Z\r\n" +
-                "USDAUD,3,2015-01-02T03:04:05.678Z\r\n";
+        Response response = target().path("/contract")
+                .request()
+                .post(Entity.entity(inputCsv, new CsvMediaType()));
+
+        assertThat("Status code mismatch",
+                response.getStatus(), is(Status.OK.getStatusCode()));
+        assertThat("Response mismatch",
+                response.readEntity(String.class), is("2 entries have been saved"));
+    }
+
+    @Test
+    public void itShouldCreateNewContractsFromFileUploaded() {
+        ByteArrayInputStream stream =
+                new ByteArrayInputStream(inputCsv.getBytes());
+        StreamDataBodyPart file = new StreamDataBodyPart("file", stream);
+        MultiPart multipart = new FormDataMultiPart()
+                .bodyPart(file);
 
         Response response = target().path("/contract")
                 .request()
-                .post(Entity.entity(payload, new CsvMediaType()));
+                .post(Entity.entity(multipart, multipart.getMediaType()));
 
         assertThat("Status code mismatch",
                 response.getStatus(), is(Status.OK.getStatusCode()));
