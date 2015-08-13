@@ -20,7 +20,7 @@ repositories {
 
 
 ext.slf4jVersion = '1.7.12'
-ext.jerseyVersion = '2.19'
+ext.jerseyVersion = '2.20'
 ext.springVersion = '4.2.0.RELEASE'
 
 repositories {
